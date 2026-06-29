@@ -39,8 +39,14 @@ public_users.get('/author/:author',function (req, res) {
 
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  const title = req.params.title;
+  const titledBooks = Object.values(books).filter(book => book.title.toLowerCase() === title.toLowerCase());
+  if (titledBooks.length > 0) {
+    // res.sendStatus(200).json(JSON.stringify(titledBooks, null, 4)); Was only giving OK as a response, not the actual data. Changed to res.status(200).json(titledBooks) to send the data back with a 200 status code.
+    res.status(200).json(titledBooks);
+  } else {
+    res.status(404).json({ message: "Books with this title not found" });
+  }
 });
 
 //  Get book review
